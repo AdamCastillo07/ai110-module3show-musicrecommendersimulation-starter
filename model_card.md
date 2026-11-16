@@ -21,16 +21,21 @@ Prompts:
 
 ## 3. How the Model Works  
 
-Explain your scoring approach in simple language.  
+Think of it less like a model that "learns" and more like a judge that scores every song in the catalog against what you told it you like, then hands you the songs with the highest scores.
 
-Prompts:  
+For every song, the judge looks at four things: its **genre** (pop, lofi, rock, etc.), its **mood** (happy, chill, intense, etc.), how **energetic** it is on a scale from calm to high-energy, and whether it sounds **acoustic** or more produced/electronic.
 
-- What features of each song are used (genre, energy, mood, etc.)  
-- What user preferences are considered  
-- How does the model turn those into a score  
-- What changes did you make from the starter logic  
+It compares each of those to what you said you wanted: your favorite genre, your favorite mood, the energy level you're in the mood for, and whether you generally prefer acoustic-leaning songs.
 
-Avoid code here. Pretend you are explaining the idea to a friend who does not program.
+Each of the four comparisons earns the song some points, but not the same amount of points:
+- An exact **genre** match is worth the most, since I'm treating "what kind of music you listen to" as your most stable, defining taste.
+- An exact **mood** match is worth a bit less — moods shift more often than genre taste does, so it's treated as a secondary preference.
+- **Energy** isn't a yes/no match — a song doesn't have to hit your exact energy level to get credit, it gets partial credit the closer it lands to what you asked for.
+- The **acoustic** preference is worth the least — it's more of a tie-breaker than a core reason to recommend something.
+
+All four point amounts get added up into one total score per song. The catalog gets sorted from highest score to lowest, and you're shown the top few. Alongside every recommendation, the system also prints out exactly which of the four things matched and how many points each one contributed, so a recommendation never just says "trust me" — it shows its work.
+
+Starting from the starter logic, the main change was turning vague "give a bonus" placeholders into an actual weighted point recipe (genre worth more than mood, energy scored as a sliding scale rather than all-or-nothing, acoustic treated as a minor tie-breaker), plus making sure every recommendation comes with a plain-language reason attached.
 
 ---
 
